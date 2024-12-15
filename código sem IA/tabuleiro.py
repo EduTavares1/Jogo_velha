@@ -31,7 +31,7 @@ class Tabuleiro:
                     return Tabuleiro.JOGADOR_0
                 elif soma == 12:
                     return Tabuleiro.JOGADOR_X
-                
+        #Verifica diagonal principal        
         soma = 0
         for i in range(0,3):
             soma = soma + self.matriz[i][i]
@@ -39,8 +39,8 @@ class Tabuleiro:
                     return Tabuleiro.JOGADOR_0
             elif soma == 12:
                     return Tabuleiro.JOGADOR_X
-            
-            soma = 0
+        #Verifica diagonal secundaria    
+        soma = 0
         for i in range(0,3):
             soma = soma + self.matriz[2-i][i]
             if soma == 3:
