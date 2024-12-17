@@ -18,6 +18,11 @@ class JogadorIA(Jogador):
             
 
     def getJogada(self) -> tuple[int, int] | None:
+        #Regra 1
+        jogada = self.Regra_1(self.tipo) or self.Regra_1(self.tipo_d_oponente)
+        if jogada:
+            return jogada
+        
 
         #Regra 3
         jogada = self.Regra_3()
@@ -37,6 +42,29 @@ class JogadorIA(Jogador):
 
         #Regra 6
         return self.Regra_6()
+
+    def Regra_1(self, tipo:int) -> tuple[int, int] | None:
+        for i in range(0,3):
+            #checando as linhas
+            if self.matriz[i].count(tipo) == 2 and Tabuleiro.DESCONHECIDO in self.matriz[i]:
+                return(i, self.matriz[i].index(Tabuleiro.DESCONHECIDO))
+        
+        #checando colunas
+        coluna = [self.matriz[c][i] for c in range(0,3)]
+        if coluna.count(tipo) == 2 and Tabuleiro.DESCONHECIDO in coluna:
+            return(coluna.index(Tabuleiro.DESCONHECIDO), i)
+        
+        #checando as diagonais
+        diagonal_p = [self.matriz[i][i] for i in range(0,3)]
+        diagonal_s = [self.matriz[i][2- i] for i in range(0,3)]
+
+        if diagonal_p.count(tipo) == 2 and Tabuleiro.DESCONHECIDO in diagonal_p:
+            return (diagonal_p.index(Tabuleiro.DESCONHECIDO), diagonal_p.index(Tabuleiro.DESCONHECIDO))
+        if diagonal_s.count(tipo) == 2 and Tabuleiro.DESCONHECIDO in diagonal_s:
+            return (diagonal_s.index(Tabuleiro.DESCONHECIDO), 2-diagonal_s.index(Tabuleiro.DESCONHECIDO))
+        return None
+        
+        
     
     def Regra_3(self) -> tuple[int, int] | None:
         if self.matriz[1][1] == Tabuleiro.DESCONHECIDO:
