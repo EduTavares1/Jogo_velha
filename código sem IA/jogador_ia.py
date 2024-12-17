@@ -7,17 +7,21 @@ from tabuleiro import Tabuleiro
 class JogadorIA(Jogador):
     def __init__(self, tabuleiro : Tabuleiro, tipo : int):
         super().__init__(tabuleiro, tipo)
+        
 
+    
     
                
                       
                
             
 
-    def getJogada(self) -> (int, int):
+    def getJogada(self) -> tuple[int, int] | None:
 
-        #Regra 4
-        
+        #Regra 3
+        if self.matriz[1][1] == Tabuleiro.DESCONHECIDO:
+            return (1,1)
+
         
         #Regra 5
         jogada = self.Regra_5()
@@ -27,7 +31,9 @@ class JogadorIA(Jogador):
         #Regra 6
         return self.Regra_6()
     
-    def Regra_5(self) -> (int, int):
+    
+    
+    def Regra_5(self) -> tuple[int, int] |  None:
         
         extremidades =[(0,0),(0,2),(2,0),(2,2)]
 
@@ -37,7 +43,7 @@ class JogadorIA(Jogador):
                 return(l,c)
         return None    
 
-    def Regra_6(self) -> (int,int):
+    def Regra_6(self) -> tuple[int, int] | None:
         for l in range(0,3):
             for c in range(0,3):
                 if self.matriz[l][c] == Tabuleiro.DESCONHECIDO:
