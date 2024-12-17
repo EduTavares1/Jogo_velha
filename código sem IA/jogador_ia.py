@@ -23,6 +23,10 @@ class JogadorIA(Jogador):
         if jogada:
             return jogada
         
+        #Regra 2
+        jogada = self.Regra_2()
+        if jogada:
+            return jogada
 
         #Regra 3
         jogada = self.Regra_3()
@@ -63,6 +67,42 @@ class JogadorIA(Jogador):
         if diagonal_s.count(tipo) == 2 and Tabuleiro.DESCONHECIDO in diagonal_s:
             return (diagonal_s.index(Tabuleiro.DESCONHECIDO), 2-diagonal_s.index(Tabuleiro.DESCONHECIDO))
         return None
+    
+    def Regra_2(self) -> tuple[int, int] | None:
+        for l in range(3):
+         for c in range(3):
+            if self.matriz[l][c] == Tabuleiro.DESCONHECIDO:
+                # Simula a jogada na posição (l, c)
+                self.matriz[l][c] = self.tipo
+                count = 0
+
+                # Verifica linhas
+                for i in range(3):
+                    if self.matriz[i].count(self.tipo) == 2 and Tabuleiro.DESCONHECIDO in self.matriz[i]:
+                        count += 1
+
+                # Verifica colunas
+                for j in range(3):
+                    coluna = [self.matriz[x][j] for x in range(3)]
+                    if coluna.count(self.tipo) == 2 and Tabuleiro.DESCONHECIDO in coluna:
+                        count += 1
+
+                # Verifica diagonais
+                diagonal_p = [self.matriz[x][x] for x in range(3)]
+                diagonal_s = [self.matriz[x][2 - x] for x in range(3)]
+                if diagonal_p.count(self.tipo) == 2 and Tabuleiro.DESCONHECIDO in diagonal_p:
+                    count += 1
+                if diagonal_s.count(self.tipo) == 2 and Tabuleiro.DESCONHECIDO in diagonal_s:
+                    count += 1
+
+                # Reverte a simulação
+                self.matriz[l][c] = Tabuleiro.DESCONHECIDO
+
+                # Se a jogada cria duas sequências de duas marcações
+                if count >= 2:
+                    return (l, c)
+        return None
+
         
         
     

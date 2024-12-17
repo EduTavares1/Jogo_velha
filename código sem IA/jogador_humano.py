@@ -10,7 +10,7 @@ class JogadorHumano(Jogador):
         self.buttons = _buttons
         
       
-    def getJogada(self) -> (int, int):
+    def getJogada(self) -> tuple[int, int] | None:
         while True:
              for event in pygame.event.get():
                  if (event.type == pygame.QUIT):
